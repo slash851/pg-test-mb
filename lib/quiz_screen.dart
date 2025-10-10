@@ -133,50 +133,62 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Pytanie ${_currentQuestionIndex + 1} / ${widget.questions.length}',
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              currentQuestion.categoryName,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${currentQuestion.questionNumberInCategory}. ${currentQuestion.questionText}',
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            if (currentQuestion.image != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Image.asset('assets/${currentQuestion.image}'),
-              ),
-            const SizedBox(height: 24),
-            ...List.generate(currentQuestion.answers.length, (index) {
-              Color? tileColor;
-              if (_answered) {
-                if (index == currentQuestion.correctAnswerIndex) {
-                  tileColor = Colors.green.withOpacity(0.5);
-                } else if (index == _selectedAnswerIndex) {
-                  tileColor = Colors.red.withOpacity(0.5);
-                }
-              }
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Pytanie ${_currentQuestionIndex + 1} / ${widget.questions.length}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      currentQuestion.categoryName,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.grey[600],
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '${currentQuestion.questionNumberInCategory}. ${currentQuestion.questionText}',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    if (currentQuestion.image != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.7,
+                          child: Image.asset('assets/${currentQuestion.image}'),
+                        ),
+                      ),
+                    const SizedBox(height: 24),
+                    ...List.generate(currentQuestion.answers.length, (index) {
+                      Color? tileColor;
+                      if (_answered) {
+                        if (index == currentQuestion.correctAnswerIndex) {
+                          tileColor = Colors.green.withOpacity(0.5);
+                        } else if (index == _selectedAnswerIndex) {
+                          tileColor = Colors.red.withOpacity(0.5);
+                        }
+                      }
 
-              return Card(
-                color: tileColor,
-                child: ListTile(
-                  title: Text('${String.fromCharCode('A'.codeUnitAt(0) + index)}. ${currentQuestion.answers[index]}'),
-                  onTap: () => _handleAnswer(index),
+                      return Card(
+                        color: tileColor,
+                        child: ListTile(
+                          title: Text('${String.fromCharCode('A'.codeUnitAt(0) + index)}. ${currentQuestion.answers[index]}'),
+                          onTap: () => _handleAnswer(index),
+                        ),
+                      );
+                    }),
+                  ],
                 ),
-              );
-            }),
-            const Spacer(),
+              ),
+            ),
+            const SizedBox(height: 16),
             if (_answered)
               ElevatedButton(
                 onPressed: _nextQuestion,
