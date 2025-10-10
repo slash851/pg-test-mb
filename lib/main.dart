@@ -47,7 +47,7 @@ class MainMenuScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => QuizScreen(
-                    questions: allQuestions..shuffle(),
+                    questions: allQuestions,
                     title: 'Praktyka',
                   ),
                 ),

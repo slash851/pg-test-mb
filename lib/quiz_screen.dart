@@ -134,13 +134,21 @@ class _QuizScreenState extends State<QuizScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Pytanie ${_currentQuestionIndex + 1}/${widget.questions.length}',
+              'Pytanie ${_currentQuestionIndex + 1} / ${widget.questions.length}',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 4),
             Text(
-              currentQuestion.questionText,
+              currentQuestion.categoryName,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey[600],
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '${currentQuestion.questionNumberInCategory}. ${currentQuestion.questionText}',
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
@@ -163,7 +171,7 @@ class _QuizScreenState extends State<QuizScreen> {
               return Card(
                 color: tileColor,
                 child: ListTile(
-                  title: Text(currentQuestion.answers[index]),
+                  title: Text('${String.fromCharCode('A'.codeUnitAt(0) + index)}. ${currentQuestion.answers[index]}'),
                   onTap: () => _handleAnswer(index),
                 ),
               );
